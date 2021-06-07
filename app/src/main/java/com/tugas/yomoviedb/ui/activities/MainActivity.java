@@ -1,8 +1,10 @@
-package com.tugas.yomoviedb;
+package com.tugas.yomoviedb.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.tugas.yomoviedb.R;
 
 public class MainActivity extends AppCompatActivity {
 
