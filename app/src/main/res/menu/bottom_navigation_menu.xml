@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/page_movie"
+        android:enabled="true"
+        android:icon="@drawable/ic_outline_local_movies_24"
+        android:title="Movie"/>
+    <item
+        android:id="@+id/page_tv_show"
+        android:enabled="true"
+        android:icon="@drawable/ic_outline_live_tv_24"
+        android:title="TV Show"/>
+    <item
+        android:id="@+id/page_favourite"
+        android:enabled="true"
+        android:icon="@drawable/ic_outline_favorite_border_24"
+        android:title="Favourite"/>
+
+</menu>
