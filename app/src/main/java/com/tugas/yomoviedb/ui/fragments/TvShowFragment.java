@@ -20,9 +20,9 @@ import android.widget.SearchView;
 
 import com.tugas.yomoviedb.R;
 import com.tugas.yomoviedb.data.api.repository.TvShowRepository;
-import com.tugas.yomoviedb.data.api.repository.callback.OnSearchCallback;
+import com.tugas.yomoviedb.data.api.repository.callback.OnTvSearchCallback;
 import com.tugas.yomoviedb.data.api.repository.callback.OnTvShowCallback;
-import com.tugas.yomoviedb.data.models.TvShow;
+import com.tugas.yomoviedb.data.models.tvshow.TvShow;
 import com.tugas.yomoviedb.ui.activities.DetailActivity;
 import com.tugas.yomoviedb.ui.adapters.TvShowAdapter;
 import com.tugas.yomoviedb.ui.adapters.clicklistener.OnTvShowClickListener;
@@ -106,7 +106,6 @@ public class TvShowFragment extends Fragment
             repository.getTvShow(getBundle(), page, new OnTvShowCallback() {
                 @Override
                 public void onSuccess(int page, List<TvShow> tvShowList) {
-                    // TODO: hide error text
                     if (adapter == null) {
                         adapter = new TvShowAdapter(tvShowList);
                         adapter.setClickListener(TvShowFragment.this);
@@ -126,7 +125,7 @@ public class TvShowFragment extends Fragment
                 }
             });
         } else {
-            repository.search(query, page, new OnSearchCallback() {
+            repository.searchTv(query, page, new OnTvSearchCallback() {
                 @Override
                 public void onSuccess(List<TvShow> tvShowsList, String msg, int page) {
                     if (adapter == null) {

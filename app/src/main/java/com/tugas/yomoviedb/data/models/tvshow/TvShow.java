@@ -1,4 +1,4 @@
-package com.tugas.yomoviedb.data.models;
+package com.tugas.yomoviedb.data.models.tvshow;
 
 import com.google.gson.annotations.SerializedName;
 import com.tugas.yomoviedb.Const;

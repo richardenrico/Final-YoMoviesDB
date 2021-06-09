@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 
 import com.tugas.yomoviedb.Const;
 import com.tugas.yomoviedb.data.api.Service;
-import com.tugas.yomoviedb.data.api.repository.callback.OnSearchCallback;
+import com.tugas.yomoviedb.data.api.repository.callback.OnTvSearchCallback;
+import com.tugas.yomoviedb.data.api.repository.callback.OnTvDetailCallback;
 import com.tugas.yomoviedb.data.api.repository.callback.OnTvShowCallback;
-import com.tugas.yomoviedb.data.models.TvShowResponse;
+import com.tugas.yomoviedb.data.models.tvshow.TvShow;
+import com.tugas.yomoviedb.data.models.tvshow.TvShowResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,7 +38,7 @@ public class TvShowRepository {
     }
 
     public void getTvShow(String sortBy, int page, final OnTvShowCallback callback) {
-        service.getResults(sortBy, Const.API_KEY, page)
+        service.getTvResults(sortBy, Const.API_KEY, page)
                 .enqueue(new Callback<TvShowResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<TvShowResponse> call, @NonNull Response<TvShowResponse> response) {
@@ -62,8 +64,31 @@ public class TvShowRepository {
                 });
     }
 
-    public void search(String query, int page, final OnSearchCallback callback) {
-        service.search(Const.API_KEY, query, page)
+    public void getTvDetail(int id, final OnTvDetailCallback callback) {
+        service.getTvDetail(id, Const.API_KEY)
+                .enqueue(new Callback<TvShow>() {
+                    @Override
+                    public void onResponse(@NonNull Call<TvShow> call, @NonNull Response<TvShow> response) {
+                        if (response.isSuccessful()) {
+                            if (response.body() != null) {
+                                callback.onSuccess(response.body(), response.message());
+                            } else {
+                                callback.onFailure("response.body() is null");
+                            }
+                        } else {
+                            callback.onFailure(response.message() + ", Error Code : " + response.code());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<TvShow> call, @NonNull Throwable t) {
+                        callback.onFailure(t.getLocalizedMessage());
+                    }
+                });
+    }
+
+    public void searchTv(String query, int page, final OnTvSearchCallback callback) {
+        service.searchTv(Const.API_KEY, query, page)
                 .enqueue(new Callback<TvShowResponse>() {
                     @Override
                     public void onResponse(Call<TvShowResponse> call, Response<TvShowResponse> response) {

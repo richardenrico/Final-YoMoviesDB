@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.tugas.yomoviedb.ImageSize;
 import com.tugas.yomoviedb.R;
-import com.tugas.yomoviedb.data.models.TvShow;
+import com.tugas.yomoviedb.data.models.tvshow.TvShow;
 import com.tugas.yomoviedb.ui.adapters.clicklistener.OnTvShowClickListener;
 
 import java.util.List;
@@ -60,6 +60,7 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
             super(itemView);
             ivItemImg = itemView.findViewById(R.id.iv_item_image);
             tvItemTitle = itemView.findViewById(R.id.tv_item_title);
+            itemView.setOnClickListener(this);
         }
 
         public void onBindItemView(TvShow tvShow) {
