@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/add_to_favourite"
         android:enabled="true"
-        android:icon="@drawable/ic_outline_favorite_border_24"
-        android:title="Favourite"/>
+        android:icon="@drawable/ic_favorite_selector"
+        android:iconTint="@color/textColorPrimaryDark"
+        app:showAsAction="ifRoom"
+        android:title="@string/favourite"/>
 
 </menu>
