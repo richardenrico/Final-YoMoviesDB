@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragments.TvShowFragment">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swl_tv_show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent">-->
+
+        <!--            <androidx.appcompat.widget.Toolbar-->
+        <!--                android:id="@+id/toolbar"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                app:menu="@menu/fragment_menu"-->
+        <!--                app:layout_constraintTop_toTopOf="parent">-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/toolbar_title"-->
+        <!--                    style="@style/ToolbarTitleAppearance"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_gravity="center"-->
+        <!--                    android:text="Title"-->
+        <!--                    android:textColor="@color/textColorPrimaryDark" />-->
+
+        <!--            </androidx.appcompat.widget.Toolbar>-->
+
+        <!--            <androidx.recyclerview.widget.RecyclerView-->
+        <!--                android:id="@+id/recycler_view"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:paddingVertical="10dp"-->
+        <!--                tools:listitem="@layout/recycler_item_grid"-->
+        <!--                app:layout_constraintTop_toTopOf="parent"-->
+        <!--                app:layout_constrainedHeight="true"-->
+        <!--                app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                app:layout_constraintStart_toStartOf="parent"-->
+        <!--                app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+        <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            tools:itemCount="3"
+            tools:listitem="@layout/recycler_item_grid" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</FrameLayout>
