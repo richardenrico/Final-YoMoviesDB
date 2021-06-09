@@ -5,6 +5,87 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <color name="transparent">#00FFFFFF</color>
+    <color name="white_transparent">#33FFFFFF</color>
+    <color name="whitesmoke">#f5f5f5</color>
+    <color name="grey">#212121</color>
+    <color name="dark_grey">#121212</color>
+    <color name="grey_black">#2E2E2E</color>
+    <color name="white_grey">#E8E8E8</color>
+    <color name="yellow">#BEB837</color>
+
+    <color name="primaryColor">#06623b</color>
+    <color name="lightPrimaryColor">#419066</color>
+    <color name="darkPrimaryColor">#003714</color>
+    <color name="secondaryColor">#feb72b</color>
+    <color name="lightSecondaryColor">#ffe961</color>
+    <color name="darkSecondaryColor">#c68700</color>
+    <color name="black">#2c2c2c</color>
+    <color name="white">#ffffff</color>
+    <color name="primaryGrey">#737373</color>
+    <color name="secondaryGrey">#a7a7a7</color>
+    <color name="dividerColor">#f5f5f5</color>
+    <color name="lineColor">#1A000000</color>
+    <color name="blue">#01A1D5</color>
+    <color name="red">#F40E0E</color>
+
+    <color name="colorDarkPrimary">#242529</color>
+    <color name="colorDarkPrimaryDark">#202125</color>
+
+    <!-- Dark Theme -->
+    <color name="colorAccentDark">#3399FF</color>
+    <color name="textColorPrimaryDark">@color/md_white_1000</color>
+    <color name="textColorSecondaryDark">@color/md_white_1000_70</color>
+    <color name="textColorHintDark">@color/md_white_1000_50</color>
+    <color name="dividerDark">@android:color/transparent</color>
+    <color name="rippleColorDark">@color/md_white_1000_6</color>
+    <color name="rippleSecondaryColorDark">#0A3399FF</color>
+    <color name="rippleToolbarColorDark">@color/rippleColorDark</color>
+    <color name="backgroundDark">@color/colorDarkPrimaryDark</color>
+    <color name="dialogDark">@color/colorDarkPrimary</color>
+    <color name="selectorColorDark">@color/md_blue_A200_50</color>
+
+    <!--  Text Color  -->
+    <color name="md_black_1000_87">#DE000000</color>
+    <color name="md_black_1000_54">#8A000000</color>
+    <color name="md_black_1000_38">#61000000</color>
+    <color name="md_black_1000_12">#1F000000</color>
+    <color name="md_black_1000_8">#14000000</color>
+    <color name="md_black_1000_6">#0F000000</color>
+
+    <color name="md_white_1000">#FFFFFFFF</color>
+    <color name="md_white_1000_70">#B3FFFFFF</color>
+    <color name="md_white_1000_54">#8AFFFFFF</color>
+    <color name="md_white_1000_50">#80FFFFFF</color>
+    <color name="md_white_1000_20">#33FFFFFF</color>
+    <color name="md_white_1000_12">#1FFFFFFF</color>
+    <color name="md_white_1000_8">#14FFFFFF</color>
+    <color name="md_white_1000_6">#0FFFFFFF</color>
+
+    <!-- Material Design Colors -->
+    <color name="md_black_1000">#000000</color>
+
+    <color name="md_grey_50">#FAFAFA</color>
+    <color name="md_grey_50_75">#BFFAFAFA</color>
+    <color name="md_grey_100">#F5F5F5</color>
+    <color name="md_grey_300">#E0E0E0</color>
+    <color name="md_grey_800">#424242</color>
+    <color name="md_grey_900">#212121</color>
+    <color name="md_grey_900_75">#BF212121</color>
+
+    <color name="md_blue_A200">#448AFF</color>
+    <color name="md_blue_A200_75">#BF448AFF</color>
+    <color name="md_blue_A200_50">#80448AFF</color>
+
+    <color name="md_blue_A400">#2979FF</color>
+    <color name="md_blue_A400_75">#BF2979FF</color>
+    <color name="md_blue_A400_38">#612979FF</color>
+    <color name="md_blue_A400_4">#0A2979FF</color>
+
+    <color name="md_blue_grey_900">#263238</color>
+    <color name="md_blue_grey_800">#37474F</color>
+
+    <color name="green">#47a84a</color>
+
 </resources>
