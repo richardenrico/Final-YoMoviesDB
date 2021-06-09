@@ -51,7 +51,7 @@ public class TvShowFragment extends Fragment
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.fragment_menu, menu);
+        inflater.inflate(R.menu.action_bar_menu, menu);
         MenuItem item = menu.findItem(R.id.item_search);
         SearchView searchView = (SearchView) item.getActionView();
         setSearchView(searchView);
