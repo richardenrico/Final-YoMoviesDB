@@ -5,6 +5,7 @@
     <string name="search">Search</string>
     <string name="favourite">Favourite</string>
     <string name="more">more</string>
+    <string name="less">less</string>
     <string name="synopsis">Synopsis:</string>
     <string name="synopsis_content">The story starts here...</string>
 </resources>
