@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,19 +48,17 @@ public class DetailActivity extends AppCompatActivity {
     private TvShowRepository tvShowRepository;
     private MovieRepository movieRepository;
     private ImageView ivBackdrop, ivPoster;
-    private TextView tvTitle, tvSynopsis, tvExpandableBtn;
+    private TextView tvTitle, tvSynopsis, tvExpandableBtn, tvDetailTitle, tvEpisode, tvSeason, tvFirstEps, tvLastEps;
     private RatingBar rbRate;
-    private Toolbar toolbar;
     private TvShow tvShow;
     private Movie movie;
     private String type, favouriteTitle, favouriteImgPath;
     private Float favouriteRate;
     private boolean isFavourite;
     private AppDatabase database;
-    private GenreAdapter genreAdapter;
-    private CastAdapter castAdapter;
     private RecyclerView rvGenre, rvCast;
     private List<Cast> listCast;
+    private ConstraintLayout clDetail;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -73,9 +72,15 @@ public class DetailActivity extends AppCompatActivity {
         tvTitle = findViewById(R.id.tv_item_title);
         tvSynopsis = findViewById(R.id.tv_item_synopsis);
         tvExpandableBtn = findViewById(R.id.tv_expandable_btn);
+        tvDetailTitle = findViewById(R.id.tv_detail_title);
+        tvEpisode = findViewById(R.id.tv_episode_title);
+        tvSeason = findViewById(R.id.tv_season_title);
+        tvFirstEps = findViewById(R.id.tv_firsteps_title);
+        tvLastEps = findViewById(R.id.tv_lasteps_title);
         rbRate = findViewById(R.id.rb_detail);
         rvGenre = findViewById(R.id.recycler_view_genre);
         rvCast = findViewById(R.id.recycler_view_cast);
+        clDetail = findViewById(R.id.cl_detail);
 
         tvSynopsis.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -311,9 +316,8 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void showGenreRV(List<Genre> genres) {
-        genreAdapter = new GenreAdapter(genres);
         rvGenre.setLayoutManager(new LinearLayoutManager(DetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        rvGenre.setAdapter(genreAdapter);
+        rvGenre.setAdapter(new GenreAdapter(genres));
     }
 
     private void onFavTvShowBindView(FavouriteTvShow favouriteTvShow) {
@@ -345,6 +349,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private void onTvBindView(TvShow tvShow) {
         this.tvShow = tvShow;
+        clDetail.setVisibility(View.VISIBLE);
         setActionBar(tvShow.getName());
         Glide.with(this)
                 .load(tvShow.getBackdropPath(ImageSize.W500))
@@ -355,6 +360,12 @@ public class DetailActivity extends AppCompatActivity {
         tvTitle.setText(tvShow.getName());
         tvSynopsis.setText(tvShow.getOverview());
         rbRate.setRating(tvShow.getVoteAverage() / 2);
+
+        tvDetailTitle.setText(tvShow.getName());
+        tvEpisode.setText(String.valueOf(tvShow.getNumberOfEpisode()));
+        tvSeason.setText(String.valueOf(tvShow.getNumberOfSeaon()));
+        tvFirstEps.setText(tvShow.getFirstAirDate());
+        tvLastEps.setText(tvShow.getLastAirDate());
 
         favouriteTitle = tvShow.getName();
         favouriteImgPath = tvShow.getPosterPath(ImageSize.W154);
