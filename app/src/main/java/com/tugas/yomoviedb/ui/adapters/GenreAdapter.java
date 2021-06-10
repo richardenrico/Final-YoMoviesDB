@@ -14,7 +14,7 @@ import com.tugas.yomoviedb.data.models.Genre;
 import java.util.List;
 
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder>{
-    private List<Genre> genreList;
+    private final List<Genre> genreList;
 
     public GenreAdapter(List<Genre> genreList) {
         this.genreList = genreList;

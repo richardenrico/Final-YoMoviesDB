@@ -19,7 +19,7 @@ import com.tugas.yomoviedb.ui.adapters.clicklistener.OnMovieClickListener;
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
-    private List<Movie> movieList;
+    private final List<Movie> movieList;
     private OnMovieClickListener clickListener;
 
     public MovieAdapter(List<Movie> movieList) {

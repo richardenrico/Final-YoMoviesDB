@@ -18,7 +18,7 @@ import com.tugas.yomoviedb.ui.adapters.clicklistener.OnTvShowClickListener;
 import java.util.List;
 
 public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder> {
-    private List<TvShow> tvShowList;
+    private final List<TvShow> tvShowList;
     private OnTvShowClickListener clickListener;
 
     public TvShowAdapter(List<TvShow> tvShowList) {

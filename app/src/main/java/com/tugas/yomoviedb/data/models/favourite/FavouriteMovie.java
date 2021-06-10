@@ -10,13 +10,13 @@ import com.tugas.yomoviedb.ImageSize;
 @Entity(tableName = "movie")
 public class FavouriteMovie {
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private final int id;
     @ColumnInfo(name = "name")
-    private String name;
+    private final String name;
     @ColumnInfo(name = "poster_path")
-    private String posterPath;
+    private final String posterPath;
     @ColumnInfo(name = "rating")
-    private float rate;
+    private final float rate;
 
     public FavouriteMovie(int id, String name, String posterPath, float rate) {
         this.id = id;

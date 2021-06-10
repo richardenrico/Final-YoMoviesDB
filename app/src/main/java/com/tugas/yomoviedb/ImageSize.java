@@ -10,7 +10,7 @@ public enum ImageSize {
     W780("w789"),
     ORI("original");
 
-    private String value;
+    private final String value;
 
     ImageSize(String value) {
         this.value = value;

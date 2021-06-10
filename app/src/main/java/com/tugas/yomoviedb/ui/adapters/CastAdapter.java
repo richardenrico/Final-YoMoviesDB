@@ -17,7 +17,7 @@ import com.tugas.yomoviedb.data.models.Cast;
 import java.util.List;
 
 public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder>{
-    private List<Cast> castList;
+    private final List<Cast> castList;
 
     public CastAdapter(List<Cast> castList) {
         this.castList = castList;

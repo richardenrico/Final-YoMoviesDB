@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TvShowRepository {
     private static TvShowRepository repository;
-    private Service service;
+    private final Service service;
 
     public TvShowRepository(Service service) {
         this.service = service;

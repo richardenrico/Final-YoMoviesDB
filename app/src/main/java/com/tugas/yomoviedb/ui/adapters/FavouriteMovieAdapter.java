@@ -17,7 +17,7 @@ import com.tugas.yomoviedb.ui.adapters.clicklistener.OnFavouriteMovieClickListen
 import java.util.List;
 
 public class FavouriteMovieAdapter extends RecyclerView.Adapter<FavouriteMovieAdapter.ViewHolder> {
-    private List<FavouriteMovie> favouriteMovieList;
+    private final List<FavouriteMovie> favouriteMovieList;
     private OnFavouriteMovieClickListener clickListener;
 
     public FavouriteMovieAdapter(List<FavouriteMovie> favouriteMovieList) {

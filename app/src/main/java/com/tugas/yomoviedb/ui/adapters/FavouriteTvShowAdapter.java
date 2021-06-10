@@ -17,7 +17,7 @@ import com.tugas.yomoviedb.ui.adapters.clicklistener.OnFavouriteTvShowClickListe
 import java.util.List;
 
 public class FavouriteTvShowAdapter extends RecyclerView.Adapter<FavouriteTvShowAdapter.ViewHolder> {
-    private List<FavouriteTvShow> favouriteTvShows;
+    private final List<FavouriteTvShow> favouriteTvShows;
     private OnFavouriteTvShowClickListener clickListener;
 
     public FavouriteTvShowAdapter(List<FavouriteTvShow> favouriteTvShows) {
