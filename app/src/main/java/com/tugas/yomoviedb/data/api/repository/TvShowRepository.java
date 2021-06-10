@@ -115,7 +115,7 @@ public class TvShowRepository {
         service.searchTv(Const.API_KEY, query, page)
                 .enqueue(new Callback<TvShowResponse>() {
                     @Override
-                    public void onResponse(Call<TvShowResponse> call, Response<TvShowResponse> response) {
+                    public void onResponse(@NonNull Call<TvShowResponse> call, @NonNull Response<TvShowResponse> response) {
                         if (response.isSuccessful()) {
                             if (response.body() != null) {
                                 if (response.body().getResults() != null) {
@@ -132,7 +132,7 @@ public class TvShowRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<TvShowResponse> call, Throwable t) {
+                    public void onFailure(@NonNull Call<TvShowResponse> call, @NonNull Throwable t) {
                         callback.onFailure(t.getLocalizedMessage());
                     }
                 });

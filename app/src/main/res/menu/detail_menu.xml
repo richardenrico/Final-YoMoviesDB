@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
@@ -8,6 +9,7 @@
         android:icon="@drawable/ic_favorite_selector"
         android:iconTint="@color/textColorPrimaryDark"
         app:showAsAction="ifRoom"
-        android:title="@string/favourite"/>
+        android:title="@string/favourite"
+        tools:targetApi="o" />
 
 </menu>

@@ -23,12 +23,4 @@ public class MovieResponse {
     public int getPage() {
         return page;
     }
-
-    public int getTotalResluts() {
-        return totalResluts;
-    }
-
-    public int getTotalPages() {
-        return totalPages;
-    }
 }

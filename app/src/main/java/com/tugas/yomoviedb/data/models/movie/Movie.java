@@ -68,9 +68,6 @@ public class Movie {
         return voteAverage;
     }
 
-    public float getRating() {
-        return voteAverage / 2;
-    }
 
     public int getVoteCount() {
         return voteCount;

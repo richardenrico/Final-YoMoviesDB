@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -81,19 +80,9 @@ public class DetailActivity extends AppCompatActivity {
         rvCast = findViewById(R.id.recycler_view_cast);
         clDetail = findViewById(R.id.cl_detail);
 
-        tvSynopsis.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expandTV();
-            }
-        });
+        tvSynopsis.setOnClickListener(v -> expandTV());
 
-        tvExpandableBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               expandTV();
-            }
-        });
+        tvExpandableBtn.setOnClickListener(v -> expandTV());
 
         if (getIntent() != null) {
             id = getIntent().getIntExtra("ID", 0);
@@ -223,18 +212,14 @@ public class DetailActivity extends AppCompatActivity {
                 item.setIcon(R.drawable.ic_outline_favorite_border_24);
 
                 Toast.makeText(this, "Removed from favourite", Toast.LENGTH_SHORT).show();
-            }, throwable -> {
-                Toast.makeText(this, "Operation bshdbfsh failed", Toast.LENGTH_SHORT).show();
-            });
+            }, throwable -> Toast.makeText(this, "Operation failed", Toast.LENGTH_SHORT).show());
         } else {
             FavouriteTvShow favoriteTvShow = new FavouriteTvShow(id, favouriteTitle, favouriteImgPath, favouriteRate);
             database.favouriteDao().addFavTvShow(favoriteTvShow).subscribe(()->{
                 item.setIcon(R.drawable.ic_baseline_favorite_24);
                 item.getIcon().setColorFilter(getResources().getColor(R.color.textColorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
                 Toast.makeText(this, "Add to Favorite", Toast.LENGTH_SHORT).show();
-            },throwable->{
-                Toast.makeText(this, "Failed to add", Toast.LENGTH_SHORT).show();
-            });
+            },throwable-> Toast.makeText(this, "Failed to add", Toast.LENGTH_SHORT).show());
         }
     }
 
@@ -245,18 +230,14 @@ public class DetailActivity extends AppCompatActivity {
             database.favouriteDao().deleteFavMovie(favouriteMovie).subscribe(() -> {
                 item.setIcon(R.drawable.ic_outline_favorite_border_24);
                 Toast.makeText(this, "Removed from favourite", Toast.LENGTH_SHORT).show();
-            }, throwable -> {
-                Toast.makeText(this, "Operation failed", Toast.LENGTH_SHORT).show();
-            });
+            }, throwable -> Toast.makeText(this, "Operation failed", Toast.LENGTH_SHORT).show());
         } else {
             FavouriteMovie favoriteMovie = new FavouriteMovie(id, favouriteTitle, favouriteImgPath, favouriteRate);
             database.favouriteDao().addFavMovie(favoriteMovie).subscribe(()->{
                 item.setIcon(R.drawable.ic_baseline_favorite_24);
                 item.getIcon().setColorFilter(getResources().getColor(R.color.textColorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
                 Toast.makeText(this, "Add to Favorite", Toast.LENGTH_SHORT).show();
-            },throwable->{
-                Toast.makeText(this, "Failed to add", Toast.LENGTH_SHORT).show();
-            });
+            },throwable-> Toast.makeText(this, "Failed to add", Toast.LENGTH_SHORT).show());
         }
     }
 

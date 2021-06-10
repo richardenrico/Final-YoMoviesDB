@@ -45,11 +45,6 @@ public class FavouriteMovieAdapter extends RecyclerView.Adapter<FavouriteMovieAd
         return favouriteMovieList.size();
     }
 
-    public void appendList(List<FavouriteMovie> listToAppend) {
-        favouriteMovieList.addAll(listToAppend);
-        notifyDataSetChanged();
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         FavouriteMovie favouriteMovie;
         ImageView ivItemImg;

@@ -21,18 +21,12 @@ import android.view.ViewGroup;
 
 import com.tugas.yomoviedb.R;
 import com.tugas.yomoviedb.data.api.repository.MovieRepository;
-import com.tugas.yomoviedb.data.api.repository.TvShowRepository;
 import com.tugas.yomoviedb.data.api.repository.callback.OnMovieCallback;
 import com.tugas.yomoviedb.data.api.repository.callback.OnMovieSearchCallback;
-import com.tugas.yomoviedb.data.api.repository.callback.OnTvSearchCallback;
-import com.tugas.yomoviedb.data.api.repository.callback.OnTvShowCallback;
 import com.tugas.yomoviedb.data.models.movie.Movie;
-import com.tugas.yomoviedb.data.models.tvshow.TvShow;
 import com.tugas.yomoviedb.ui.activities.DetailActivity;
 import com.tugas.yomoviedb.ui.adapters.MovieAdapter;
-import com.tugas.yomoviedb.ui.adapters.TvShowAdapter;
 import com.tugas.yomoviedb.ui.adapters.clicklistener.OnMovieClickListener;
-import com.tugas.yomoviedb.ui.adapters.clicklistener.OnTvShowClickListener;
 
 import java.util.List;
 

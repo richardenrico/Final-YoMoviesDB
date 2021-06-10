@@ -19,14 +19,6 @@ public class TvShowResponse {
         return page;
     }
 
-    public int getTotalResluts() {
-        return totalResluts;
-    }
-
-    public int getTotalPages() {
-        return totalPages;
-    }
-
     public List<TvShow> getResults() {
         return results;
     }

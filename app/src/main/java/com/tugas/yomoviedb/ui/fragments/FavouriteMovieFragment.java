@@ -21,6 +21,7 @@ import com.tugas.yomoviedb.ui.adapters.FavouriteMovieAdapter;
 import com.tugas.yomoviedb.ui.adapters.clicklistener.OnFavouriteMovieClickListener;
 
 import java.util.List;
+import java.util.Objects;
 
 public class FavouriteMovieFragment extends Fragment implements OnFavouriteMovieClickListener{
     private AppDatabase database;
@@ -39,7 +40,7 @@ public class FavouriteMovieFragment extends Fragment implements OnFavouriteMovie
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_favourite_movie, container, false);
 
-        database = AppDatabase.getInstance(getActivity().getApplicationContext());
+        database = AppDatabase.getInstance(requireActivity().getApplicationContext());
         loadData();
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -56,20 +57,17 @@ public class FavouriteMovieFragment extends Fragment implements OnFavouriteMovie
 
     }
     private void loadData() {
-        database.favouriteDao().getListFavMovie().observe(getActivity(), new Observer<List<FavouriteMovie>>() {
-            @Override
-            public void onChanged(List<FavouriteMovie> favouriteMovies) {
-                if (favouriteMovies.size() == 0) {
-                    clEmpty.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
-                } else {
-                    adapter = new FavouriteMovieAdapter(favouriteMovies);
-                    adapter.setClickListener(FavouriteMovieFragment.this);
-                    adapter.notifyDataSetChanged();
-                    recyclerView.setAdapter(adapter);
-                    clEmpty.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                }
+        database.favouriteDao().getListFavMovie().observe(requireActivity(), favouriteMovies -> {
+            if (favouriteMovies.size() == 0) {
+                clEmpty.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            } else {
+                adapter = new FavouriteMovieAdapter(favouriteMovies);
+                adapter.setClickListener(FavouriteMovieFragment.this);
+                adapter.notifyDataSetChanged();
+                recyclerView.setAdapter(adapter);
+                clEmpty.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
         });
     }

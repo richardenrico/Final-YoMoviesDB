@@ -28,7 +28,8 @@
                 android:scaleType="centerCrop"
                 android:src="@color/whitesmoke"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:targetApi="m" />
+                tools:targetApi="m"
+                android:contentDescription="TODO" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_inner_top"
@@ -97,7 +98,7 @@
                         android:transformPivotX="0dp"
                         android:transformPivotY="0dp"
                         tools:rating="3.5"
-                        />
+                        tools:targetApi="lollipop" />
 
                 </LinearLayout>
 

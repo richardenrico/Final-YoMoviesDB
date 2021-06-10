@@ -1,6 +1,5 @@
 package com.tugas.yomoviedb.data.models;
 
-import com.google.gson.annotations.SerializedName;
 import com.tugas.yomoviedb.Const;
 import com.tugas.yomoviedb.ImageSize;
 

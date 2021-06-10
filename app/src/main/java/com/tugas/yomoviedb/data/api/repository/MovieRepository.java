@@ -112,7 +112,7 @@ public class MovieRepository {
     public void searchMovie(String query, int page, final OnMovieSearchCallback callback) {
         service.searchMovie(Const.API_KEY, query, page).enqueue(new Callback<MovieResponse>() {
             @Override
-            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+            public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         if (response.body().getMovieResult() != null) {
@@ -129,7 +129,7 @@ public class MovieRepository {
             }
 
             @Override
-            public void onFailure(Call<MovieResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<MovieResponse> call, @NonNull Throwable t) {
                 callback.onFailure(t.getLocalizedMessage());
             }
         });

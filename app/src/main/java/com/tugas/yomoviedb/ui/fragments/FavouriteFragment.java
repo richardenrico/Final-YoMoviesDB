@@ -14,6 +14,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.tugas.yomoviedb.R;
 import com.tugas.yomoviedb.ui.adapters.ViewPagerAdapter;
 
+import java.util.Objects;
+
 public class FavouriteFragment extends Fragment {
 
     @Override

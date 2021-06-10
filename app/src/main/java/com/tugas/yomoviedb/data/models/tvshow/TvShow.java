@@ -81,10 +81,6 @@ public class TvShow {
         return Const.IMG_URL + size.getValue() + posterPath;
     }
 
-    public float getRating() {
-        return voteAverage / 2;
-    }
-
     public float getVoteAverage() {
         return voteAverage;
     }

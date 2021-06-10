@@ -4,9 +4,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.tugas.yomoviedb.Const;
-import com.tugas.yomoviedb.ImageSize;
-
 @Entity(tableName = "movie")
 public class FavouriteMovie {
     @PrimaryKey(autoGenerate = true)
