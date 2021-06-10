@@ -112,7 +112,7 @@ public class MovieFragment extends Fragment
     private void getRepositoryData(String query, int page) {
         isFetching = true;
         if (query.equals("")) {
-            repository.getMovie(getBundle(), page, new OnMovieCallback() {
+            repository.getMovie(page, new OnMovieCallback() {
                 @Override
                 public void onSuccess(int page, List<Movie> movieList) {
                     if (adapter == null) {
@@ -162,13 +162,6 @@ public class MovieFragment extends Fragment
         }
     }
 
-    private String getBundle() {
-        if (getArguments() != null) {
-            return getArguments().getString("SORT_BY");
-        }
-        return "now_playing";
-    }
-
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
@@ -196,7 +189,6 @@ public class MovieFragment extends Fragment
     public void onClick(Movie movie) {
         Intent intent = new Intent(getContext(), DetailActivity.class);
         intent.putExtra("ID", movie.getId());
-        intent.putExtra("SELECTED_FRAGMENT", getBundle());
         intent.putExtra("TYPE", "MOVIE");
         startActivity(intent);
     }

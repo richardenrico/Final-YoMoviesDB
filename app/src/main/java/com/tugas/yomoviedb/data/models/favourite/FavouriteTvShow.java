@@ -1,4 +1,4 @@
-package com.tugas.yomoviedb.data.models;
+package com.tugas.yomoviedb.data.models.favourite;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

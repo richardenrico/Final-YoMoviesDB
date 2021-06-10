@@ -1,8 +1,12 @@
 package com.tugas.yomoviedb.data.models.tvshow;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.tugas.yomoviedb.Const;
 import com.tugas.yomoviedb.ImageSize;
+import com.tugas.yomoviedb.data.models.Genre;
+
+import java.util.List;
 
 public class TvShow {
     @SerializedName("backdrop_path")
@@ -29,6 +33,13 @@ public class TvShow {
     private float voteAverage;
     @SerializedName("vote_count")
     private int voteCount;
+    @SerializedName("genres")
+    @Expose
+    private List<Genre> genres;
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
 
     public String getBackdropPath(ImageSize size) {
         return Const.IMG_URL + size.getValue() + backdropPath;
@@ -68,6 +79,10 @@ public class TvShow {
 
     public String getPosterPath(ImageSize size) {
         return Const.IMG_URL + size.getValue() + posterPath;
+    }
+
+    public float getRating() {
+        return voteAverage / 2;
     }
 
     public float getVoteAverage() {

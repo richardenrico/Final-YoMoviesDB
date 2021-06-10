@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.tugas.yomoviedb.R;
-import com.tugas.yomoviedb.data.models.FavouriteMovie;
-import com.tugas.yomoviedb.data.models.FavouriteTvShow;
-import com.tugas.yomoviedb.ui.adapters.clicklistener.OnFavouriteMovieClickListener;
+import com.tugas.yomoviedb.data.models.favourite.FavouriteTvShow;
 import com.tugas.yomoviedb.ui.adapters.clicklistener.OnFavouriteTvShowClickListener;
 
 import java.util.List;

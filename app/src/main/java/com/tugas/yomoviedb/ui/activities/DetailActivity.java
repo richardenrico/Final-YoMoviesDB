@@ -6,6 +6,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.PorterDuff;
 import android.os.Build;
@@ -24,13 +26,21 @@ import com.tugas.yomoviedb.ImageSize;
 import com.tugas.yomoviedb.R;
 import com.tugas.yomoviedb.data.api.repository.MovieRepository;
 import com.tugas.yomoviedb.data.api.repository.TvShowRepository;
+import com.tugas.yomoviedb.data.api.repository.callback.OnCastCallback;
 import com.tugas.yomoviedb.data.api.repository.callback.OnMovieDetailCallback;
 import com.tugas.yomoviedb.data.api.repository.callback.OnTvDetailCallback;
 import com.tugas.yomoviedb.data.local.database.AppDatabase;
-import com.tugas.yomoviedb.data.models.FavouriteMovie;
-import com.tugas.yomoviedb.data.models.FavouriteTvShow;
+import com.tugas.yomoviedb.data.models.Cast;
+import com.tugas.yomoviedb.data.models.Credits;
+import com.tugas.yomoviedb.data.models.Genre;
+import com.tugas.yomoviedb.data.models.favourite.FavouriteMovie;
+import com.tugas.yomoviedb.data.models.favourite.FavouriteTvShow;
 import com.tugas.yomoviedb.data.models.movie.Movie;
 import com.tugas.yomoviedb.data.models.tvshow.TvShow;
+import com.tugas.yomoviedb.ui.adapters.CastAdapter;
+import com.tugas.yomoviedb.ui.adapters.GenreAdapter;
+
+import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
     private int id;
@@ -46,6 +56,10 @@ public class DetailActivity extends AppCompatActivity {
     private Float favouriteRate;
     private boolean isFavourite;
     private AppDatabase database;
+    private GenreAdapter genreAdapter;
+    private CastAdapter castAdapter;
+    private RecyclerView rvGenre, rvCast;
+    private List<Cast> listCast;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -59,6 +73,9 @@ public class DetailActivity extends AppCompatActivity {
         tvTitle = findViewById(R.id.tv_item_title);
         tvSynopsis = findViewById(R.id.tv_item_synopsis);
         tvExpandableBtn = findViewById(R.id.tv_expandable_btn);
+        rbRate = findViewById(R.id.rb_detail);
+        rvGenre = findViewById(R.id.recycler_view_genre);
+        rvCast = findViewById(R.id.recycler_view_cast);
 
         tvSynopsis.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +117,40 @@ public class DetailActivity extends AppCompatActivity {
         favouriteTitle = "";
 
         loadData(type, id);
+
+
+    }
+
+    private void showCastRV(String type) {
+        if (type.equalsIgnoreCase("MOVIE")) {
+            movieRepository.getMovieCast(id, new OnCastCallback() {
+                @Override
+                public void onSuccess(Credits credits, String message) {
+                    listCast = credits.getCast();
+                    rvCast.setLayoutManager(new LinearLayoutManager(DetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                    rvCast.setAdapter(new CastAdapter(listCast));
+                }
+
+                @Override
+                public void onFailure(String message) {
+
+                }
+            });
+        } else {
+            tvShowRepository.getTvCast(id, new OnCastCallback() {
+                @Override
+                public void onSuccess(Credits credits, String message) {
+                    listCast = credits.getCast();
+                    rvCast.setLayoutManager(new LinearLayoutManager(DetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                    rvCast.setAdapter(new CastAdapter(listCast));
+                }
+
+                @Override
+                public void onFailure(String message) {
+
+                }
+            });
+        }
     }
 
     private void setActionBar(String title) {
@@ -216,6 +267,7 @@ public class DetailActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Movie movie, String message) {
                         onMovieBindView(movie);
+                        showGenreRV(movie.getGenres());
                     }
 
                     @Override
@@ -227,6 +279,7 @@ public class DetailActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(TvShow tvShow, String message) {
                         onTvBindView(tvShow);
+                        showGenreRV(tvShow.getGenres());
                     }
 
                     @Override
@@ -254,6 +307,13 @@ public class DetailActivity extends AppCompatActivity {
                 break;
         }
 
+        showCastRV(type);
+    }
+
+    private void showGenreRV(List<Genre> genres) {
+        genreAdapter = new GenreAdapter(genres);
+        rvGenre.setLayoutManager(new LinearLayoutManager(DetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        rvGenre.setAdapter(genreAdapter);
     }
 
     private void onFavTvShowBindView(FavouriteTvShow favouriteTvShow) {
@@ -294,6 +354,7 @@ public class DetailActivity extends AppCompatActivity {
                 .into(ivPoster);
         tvTitle.setText(tvShow.getName());
         tvSynopsis.setText(tvShow.getOverview());
+        rbRate.setRating(tvShow.getVoteAverage() / 2);
 
         favouriteTitle = tvShow.getName();
         favouriteImgPath = tvShow.getPosterPath(ImageSize.W154);
@@ -312,6 +373,7 @@ public class DetailActivity extends AppCompatActivity {
                 .into(ivPoster);
         tvTitle.setText(movie.getName());
         tvSynopsis.setText(movie.getOverview());
+        rbRate.setRating(movie.getVoteAverage() / 2);
 
         favouriteTitle = movie.getName();
         favouriteImgPath = movie.getPosterPath(ImageSize.W154);

@@ -10,12 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.tugas.yomoviedb.ImageSize;
 import com.tugas.yomoviedb.R;
-import com.tugas.yomoviedb.data.models.FavouriteMovie;
-import com.tugas.yomoviedb.data.models.movie.Movie;
+import com.tugas.yomoviedb.data.models.favourite.FavouriteMovie;
 import com.tugas.yomoviedb.ui.adapters.clicklistener.OnFavouriteMovieClickListener;
-import com.tugas.yomoviedb.ui.adapters.clicklistener.OnMovieClickListener;
 
 import java.util.List;
 

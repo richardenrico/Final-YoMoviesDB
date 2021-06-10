@@ -7,8 +7,8 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.tugas.yomoviedb.data.models.FavouriteMovie;
-import com.tugas.yomoviedb.data.models.FavouriteTvShow;
+import com.tugas.yomoviedb.data.models.favourite.FavouriteMovie;
+import com.tugas.yomoviedb.data.models.favourite.FavouriteTvShow;
 
 import java.util.List;
 

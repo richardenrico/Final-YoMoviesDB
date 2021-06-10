@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,14 +15,11 @@ import android.view.ViewGroup;
 
 import com.tugas.yomoviedb.R;
 import com.tugas.yomoviedb.data.local.database.AppDatabase;
-import com.tugas.yomoviedb.data.models.FavouriteMovie;
+import com.tugas.yomoviedb.data.models.favourite.FavouriteMovie;
 import com.tugas.yomoviedb.ui.activities.DetailActivity;
 import com.tugas.yomoviedb.ui.adapters.FavouriteMovieAdapter;
-import com.tugas.yomoviedb.ui.adapters.MovieAdapter;
-import com.tugas.yomoviedb.ui.adapters.TvShowAdapter;
 import com.tugas.yomoviedb.ui.adapters.clicklistener.OnFavouriteMovieClickListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FavouriteMovieFragment extends Fragment implements OnFavouriteMovieClickListener{

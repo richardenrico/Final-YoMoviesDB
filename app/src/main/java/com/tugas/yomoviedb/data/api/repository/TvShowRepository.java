@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 
 import com.tugas.yomoviedb.Const;
 import com.tugas.yomoviedb.data.api.Service;
+import com.tugas.yomoviedb.data.api.repository.callback.OnCastCallback;
 import com.tugas.yomoviedb.data.api.repository.callback.OnTvSearchCallback;
 import com.tugas.yomoviedb.data.api.repository.callback.OnTvDetailCallback;
 import com.tugas.yomoviedb.data.api.repository.callback.OnTvShowCallback;
+import com.tugas.yomoviedb.data.models.Credits;
 import com.tugas.yomoviedb.data.models.tvshow.TvShow;
 import com.tugas.yomoviedb.data.models.tvshow.TvShowResponse;
 
@@ -37,8 +39,8 @@ public class TvShowRepository {
         return repository;
     }
 
-    public void getTvShow(String sortBy, int page, final OnTvShowCallback callback) {
-        service.getTvResults(sortBy, Const.API_KEY, page)
+    public void getTvShow(int page, final OnTvShowCallback callback) {
+        service.getTvResults(Const.API_KEY, page)
                 .enqueue(new Callback<TvShowResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<TvShowResponse> call, @NonNull Response<TvShowResponse> response) {
@@ -85,6 +87,28 @@ public class TvShowRepository {
                         callback.onFailure(t.getLocalizedMessage());
                     }
                 });
+    }
+
+    public void getTvCast(int id, final OnCastCallback callback) {
+        service.getTvCast(id, Const.API_KEY).enqueue(new Callback<Credits>() {
+            @Override
+            public void onResponse(@NonNull Call<Credits> call, @NonNull Response<Credits> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        callback.onSuccess(response.body(), response.message());
+                    } else {
+                        callback.onFailure("response.body() is null");
+                    }
+                } else {
+                    callback.onFailure(response.message() + ", Error Code : " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Credits> call, @NonNull Throwable t) {
+                callback.onFailure(t.getLocalizedMessage());
+            }
+        });
     }
 
     public void searchTv(String query, int page, final OnTvSearchCallback callback) {

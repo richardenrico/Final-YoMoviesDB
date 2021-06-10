@@ -30,16 +30,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
-        String sortBy = null;
         switch (item.getItemId()) {
             case R.id.page_movie:
                 setActionBar("Movies");
-                sortBy = "now_playing";
                 fragment = new MovieFragment();
                 break;
             case R.id.page_tv_show:
                 setActionBar("Tv Show");
-                sortBy = "airing_today";
                 fragment = new TvShowFragment();
                 break;
             case R.id.page_favourite:
@@ -49,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
 
         if (fragment != null) {
-            startFragment(fragment, sortBy);
+            startFragment(fragment);
         }
 
         return false;
@@ -62,13 +59,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
-    private void startFragment(Fragment fragment, String bundle) {
-        if (bundle != null) {
-            Bundle sortBy = new Bundle();
-            sortBy.putString("SORT_BY", bundle);
-            fragment.setArguments(sortBy);
-        }
-
+    private void startFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_layout, fragment)
                 .commit();

@@ -4,15 +4,13 @@ import androidx.annotation.NonNull;
 
 import com.tugas.yomoviedb.Const;
 import com.tugas.yomoviedb.data.api.Service;
+import com.tugas.yomoviedb.data.api.repository.callback.OnCastCallback;
 import com.tugas.yomoviedb.data.api.repository.callback.OnMovieCallback;
 import com.tugas.yomoviedb.data.api.repository.callback.OnMovieDetailCallback;
 import com.tugas.yomoviedb.data.api.repository.callback.OnMovieSearchCallback;
-import com.tugas.yomoviedb.data.api.repository.callback.OnTvDetailCallback;
-import com.tugas.yomoviedb.data.api.repository.callback.OnTvSearchCallback;
-import com.tugas.yomoviedb.data.api.repository.callback.OnTvShowCallback;
+import com.tugas.yomoviedb.data.models.Credits;
 import com.tugas.yomoviedb.data.models.movie.Movie;
 import com.tugas.yomoviedb.data.models.movie.MovieResponse;
-import com.tugas.yomoviedb.data.models.tvshow.TvShowResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,8 +39,8 @@ public class MovieRepository {
         return repository;
     }
 
-    public void getMovie(String sortBy, int page, final OnMovieCallback callback) {
-        service.getMovieResults(sortBy, Const.API_KEY, page).enqueue(new Callback<MovieResponse>() {
+    public void getMovie(int page, final OnMovieCallback callback) {
+        service.getMovieResults(Const.API_KEY, page).enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
                 if (response.isSuccessful()) {
@@ -84,6 +82,28 @@ public class MovieRepository {
 
             @Override
             public void onFailure(@NonNull Call<Movie> call, @NonNull Throwable t) {
+                callback.onFailure(t.getLocalizedMessage());
+            }
+        });
+    }
+
+    public void getMovieCast(int id, final OnCastCallback callback) {
+        service.getMovieCast(id, Const.API_KEY).enqueue(new Callback<Credits>() {
+            @Override
+            public void onResponse(@NonNull Call<Credits> call, @NonNull Response<Credits> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        callback.onSuccess(response.body(), response.message());
+                    } else {
+                        callback.onFailure("response.body() is null");
+                    }
+                } else {
+                    callback.onFailure(response.message() + ", Error Code : " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Credits> call, @NonNull Throwable t) {
                 callback.onFailure(t.getLocalizedMessage());
             }
         });

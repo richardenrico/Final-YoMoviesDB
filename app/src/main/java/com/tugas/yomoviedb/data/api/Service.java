@@ -1,5 +1,6 @@
 package com.tugas.yomoviedb.data.api;
 
+import com.tugas.yomoviedb.data.models.Credits;
 import com.tugas.yomoviedb.data.models.movie.Movie;
 import com.tugas.yomoviedb.data.models.movie.MovieResponse;
 import com.tugas.yomoviedb.data.models.tvshow.TvShow;
@@ -11,9 +12,9 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface Service {
-    @GET("tv/{sort_by}")
+    // TV Show Endpoint
+    @GET("tv/airing_today")
     Call<TvShowResponse> getTvResults(
-            @Path("sort_by") String sortBy,
             @Query("api_key") String apiKey,
             @Query("page") int page
     );
@@ -31,9 +32,15 @@ public interface Service {
             @Query("page") int page
     );
 
-    @GET("movie/{sort_by}")
+    @GET("tv/{tv_id}/credits")
+    Call<Credits> getTvCast (
+            @Path("tv_id") int id,
+            @Query("api_key") String apiKey
+    );
+
+    // Movie Endpoint
+    @GET("movie/now_playing")
     Call<MovieResponse> getMovieResults(
-            @Path("sort_by") String sortBy,
             @Query("api_key") String apiKey,
             @Query("page") int page
     );
@@ -49,5 +56,11 @@ public interface Service {
             @Query("api_key") String apiKey,
             @Query("query") String query,
             @Query("page") int page
+    );
+
+    @GET("movie/{movie_id}/credits")
+    Call<Credits> getMovieCast (
+            @Path("movie_id") int id,
+            @Query("api_key") String apiKey
     );
 }

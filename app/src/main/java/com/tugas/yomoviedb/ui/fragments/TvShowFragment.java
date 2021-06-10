@@ -106,7 +106,7 @@ public class TvShowFragment extends Fragment
     private void getRepositoryData(String query, int page) {
         isFetching = true;
         if (query.equals("")) {
-            repository.getTvShow(getBundle(), page, new OnTvShowCallback() {
+            repository.getTvShow(page, new OnTvShowCallback() {
                 @Override
                 public void onSuccess(int page, List<TvShow> tvShowList) {
                     if (adapter == null) {
@@ -156,15 +156,6 @@ public class TvShowFragment extends Fragment
         }
     }
 
-    private String getBundle() {
-        if (getArguments() != null) {
-            return getArguments().getString("SORT_BY");
-        } else {
-            return "airing_today";
-        }
-//        return "airing_today";
-    }
-
     @Override
     public boolean onQueryTextSubmit(String query) {
         return true;
@@ -192,7 +183,6 @@ public class TvShowFragment extends Fragment
     public void onClick(TvShow tvShow) {
         Intent intent = new Intent(getContext(), DetailActivity.class);
         intent.putExtra("ID", tvShow.getId());
-        intent.putExtra("SELECTED_FRAGMENT", getBundle());
         intent.putExtra("TYPE", "TV_SHOW");
         startActivity(intent);
     }
