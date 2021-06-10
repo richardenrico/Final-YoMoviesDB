@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
@@ -50,8 +51,6 @@ public class DetailActivity extends AppCompatActivity {
     private ImageView ivBackdrop, ivPoster;
     private TextView tvTitle, tvSynopsis, tvExpandableBtn, tvDetailTitle, tvEpisode, tvSeason, tvFirstEps, tvLastEps;
     private RatingBar rbRate;
-    private TvShow tvShow;
-    private Movie movie;
     private String type, favouriteTitle, favouriteImgPath;
     private Float favouriteRate;
     private boolean isFavourite;
@@ -85,26 +84,14 @@ public class DetailActivity extends AppCompatActivity {
         tvSynopsis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tvExpandableBtn.getText().toString().equalsIgnoreCase("more")) {
-                    tvSynopsis.setMaxLines(Integer.MAX_VALUE);
-                    tvExpandableBtn.setText("less");
-                } else {
-                    tvSynopsis.setMaxLines(2);
-                    tvExpandableBtn.setText("more");
-                }
+                expandTV();
             }
         });
 
         tvExpandableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tvExpandableBtn.getText().toString().equalsIgnoreCase("more")) {
-                    tvSynopsis.setMaxLines(Integer.MAX_VALUE);
-                    tvExpandableBtn.setText("less");
-                } else {
-                    tvSynopsis.setMaxLines(2);
-                    tvExpandableBtn.setText("more");
-                }
+               expandTV();
             }
         });
 
@@ -125,6 +112,17 @@ public class DetailActivity extends AppCompatActivity {
 
 
     }
+
+    private void expandTV() {
+        if (tvExpandableBtn.getText().toString().equalsIgnoreCase("more")) {
+            tvSynopsis.setMaxLines(Integer.MAX_VALUE);
+            tvExpandableBtn.setText(R.string.less);
+        } else {
+            tvSynopsis.setMaxLines(2);
+            tvExpandableBtn.setText(R.string.more);
+        }
+    }
+
 
     private void showCastRV(String type) {
         if (type.equalsIgnoreCase("MOVIE")) {
@@ -188,6 +186,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -205,14 +204,10 @@ public class DetailActivity extends AppCompatActivity {
     private void addToFav(String type, int id, MenuItem item) {
         switch (type){
             case "MOVIE":
-                isMovieExistInDB(id, item);
-                break;
-            case "TV_SHOW":
-                isTvShowExistInDB(id, item);
-                break;
             case "FAV_MOVIE":
                 isMovieExistInDB(id, item);
                 break;
+            case "TV_SHOW":
             case "FAV_TV_SHOW":
                 isTvShowExistInDB(id, item);
                 break;
@@ -348,7 +343,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void onTvBindView(TvShow tvShow) {
-        this.tvShow = tvShow;
         clDetail.setVisibility(View.VISIBLE);
         setActionBar(tvShow.getName());
         Glide.with(this)
@@ -374,7 +368,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void onMovieBindView(Movie movie) {
-        this.movie = movie;
         setActionBar(movie.getName());
         Glide.with(this)
                 .load(movie.getBackdropPath(ImageSize.W500))
