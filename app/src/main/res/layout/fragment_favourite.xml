@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.FavouriteFragment">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swl_movie"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_fav"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:scrollbars="horizontal"
+        app:tabIndicatorColor="@color/colorAccentDark"
+        app:tabIndicatorHeight="5dp"
+        app:tabMode="fixed"
+        app:tabRippleColor="@android:color/transparent"
+        app:tabSelectedTextColor="@android:color/white"
+        android:backgroundTint="@color/colorDarkPrimary"
+        app:tabTextColor="@color/textColorPrimaryDark" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
-            tools:listitem="@layout/recycler_item_grid"/>
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_fav"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tab_fav" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-</FrameLayout>
+</RelativeLayout>

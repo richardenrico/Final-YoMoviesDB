@@ -5,15 +5,19 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.tugas.yomoviedb.ImageSize;
@@ -22,7 +26,9 @@ import com.tugas.yomoviedb.data.api.repository.MovieRepository;
 import com.tugas.yomoviedb.data.api.repository.TvShowRepository;
 import com.tugas.yomoviedb.data.api.repository.callback.OnMovieDetailCallback;
 import com.tugas.yomoviedb.data.api.repository.callback.OnTvDetailCallback;
-import com.tugas.yomoviedb.data.models.Detail;
+import com.tugas.yomoviedb.data.local.database.AppDatabase;
+import com.tugas.yomoviedb.data.models.FavouriteMovie;
+import com.tugas.yomoviedb.data.models.FavouriteTvShow;
 import com.tugas.yomoviedb.data.models.movie.Movie;
 import com.tugas.yomoviedb.data.models.tvshow.TvShow;
 
@@ -36,7 +42,10 @@ public class DetailActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TvShow tvShow;
     private Movie movie;
-    private String type;
+    private String type, favouriteTitle, favouriteImgPath;
+    private Float favouriteRate;
+    private boolean isFavourite;
+    private AppDatabase database;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -85,7 +94,12 @@ public class DetailActivity extends AppCompatActivity {
 
         tvShowRepository = TvShowRepository.getInstance();
         movieRepository = MovieRepository.getInstance();
-        
+        database = AppDatabase.getInstance(getApplicationContext());
+
+        favouriteImgPath = "";
+        favouriteTitle = "";
+
+        loadData(type, id);
     }
 
     private void setActionBar(String title) {
@@ -97,17 +111,25 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-        loadData(type, id);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detail_menu, menu);
-        // TODO: switch favourite button state
+        isFavourite(type, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void isFavourite(String type, Menu menu) {
+        if (type.equalsIgnoreCase("MOVIE") || type.equalsIgnoreCase("FAV_MOVIE")) {
+            isFavourite = database.favouriteDao().isMovieExists(id);
+        } else if (type.equalsIgnoreCase("TV_SHOW") || type.equalsIgnoreCase("FAV_TV_SHOW")){
+            isFavourite = database.favouriteDao().isTvShowExists(id);
+        }
+
+        if (!isFavourite) {
+            menu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_outline_favorite_border_24));
+        } else {
+            menu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24));
+            menu.getItem(0).getIcon().setColorFilter(getResources().getColor(R.color.textColorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+        }
     }
 
     @Override
@@ -117,19 +139,74 @@ public class DetailActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.add_to_favourite:
-//                if (helper.isFavorite(id)) {
-//                    if (helper.delete(id) > 0) {
-//                        // TODO: Set favorite button state
-//                    }
-//                } else {
-//                    if (helper.insert(tvShow) > 0) {
-//                        // TODO: Set favorite button state
-//                    }
-//                }
+                addToFav(type, id, item);
                 break;
         }
-        
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addToFav(String type, int id, MenuItem item) {
+        switch (type){
+            case "MOVIE":
+                isMovieExistInDB(id, item);
+                break;
+            case "TV_SHOW":
+                isTvShowExistInDB(id, item);
+                break;
+            case "FAV_MOVIE":
+                isMovieExistInDB(id, item);
+                break;
+            case "FAV_TV_SHOW":
+                isTvShowExistInDB(id, item);
+                break;
+        }
+    }
+
+    private void isTvShowExistInDB(int id, MenuItem item) {
+        isFavourite = database.favouriteDao().isTvShowExists(id);
+        if (isFavourite) {
+            FavouriteTvShow favouriteTvShow = database.favouriteDao().findByFavTvShowId(id);
+            Log.d("Remove Tv Show Debug", favouriteTvShow.getName());
+            database.favouriteDao().deleteFavTvShow(favouriteTvShow).subscribe(() -> {
+                item.setIcon(R.drawable.ic_outline_favorite_border_24);
+
+                Toast.makeText(this, "Removed from favourite", Toast.LENGTH_SHORT).show();
+            }, throwable -> {
+                Toast.makeText(this, "Operation bshdbfsh failed", Toast.LENGTH_SHORT).show();
+            });
+        } else {
+            FavouriteTvShow favoriteTvShow = new FavouriteTvShow(id, favouriteTitle, favouriteImgPath, favouriteRate);
+            database.favouriteDao().addFavTvShow(favoriteTvShow).subscribe(()->{
+                item.setIcon(R.drawable.ic_baseline_favorite_24);
+                item.getIcon().setColorFilter(getResources().getColor(R.color.textColorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+                Toast.makeText(this, "Add to Favorite", Toast.LENGTH_SHORT).show();
+            },throwable->{
+                Toast.makeText(this, "Failed to add", Toast.LENGTH_SHORT).show();
+            });
+        }
+    }
+
+    private void isMovieExistInDB(int id, MenuItem item) {
+        isFavourite = database.favouriteDao().isMovieExists(id);
+        if (isFavourite) {
+            FavouriteMovie favouriteMovie = database.favouriteDao().findByFavMovieId(id);
+            database.favouriteDao().deleteFavMovie(favouriteMovie).subscribe(() -> {
+                item.setIcon(R.drawable.ic_outline_favorite_border_24);
+                Toast.makeText(this, "Removed from favourite", Toast.LENGTH_SHORT).show();
+            }, throwable -> {
+                Toast.makeText(this, "Operation failed", Toast.LENGTH_SHORT).show();
+            });
+        } else {
+            FavouriteMovie favoriteMovie = new FavouriteMovie(id, favouriteTitle, favouriteImgPath, favouriteRate);
+            database.favouriteDao().addFavMovie(favoriteMovie).subscribe(()->{
+                item.setIcon(R.drawable.ic_baseline_favorite_24);
+                item.getIcon().setColorFilter(getResources().getColor(R.color.textColorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+                Toast.makeText(this, "Add to Favorite", Toast.LENGTH_SHORT).show();
+            },throwable->{
+                Toast.makeText(this, "Failed to add", Toast.LENGTH_SHORT).show();
+            });
+        }
     }
 
     private void loadData(String type, int id) {
@@ -142,9 +219,7 @@ public class DetailActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(String message) {
-
-                    }
+                    public void onFailure(String message) { }
                 });
                 break;
             case "TV_SHOW":
@@ -155,12 +230,56 @@ public class DetailActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(String message) {
-
-                    }
+                    public void onFailure(String message) { }
                 });
                 break;
+            case "FAV_MOVIE":
+                isFavourite = database.favouriteDao().isMovieExists(id);
+                if (isFavourite) {
+                    FavouriteMovie favouriteMovie = database.favouriteDao().findByFavMovieId(id);
+                    Log.d("Detail Debug", favouriteMovie.getName());
+                    onFavMovieBindView(favouriteMovie);
+                } else {
+                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case "FAV_TV_SHOW":
+                isFavourite = database.favouriteDao().isTvShowExists(id);
+                if (isFavourite) {
+                    FavouriteTvShow favouriteTvShow = database.favouriteDao().findByFavTvShowId(id);
+                    onFavTvShowBindView(favouriteTvShow);
+                } else {
+                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
+
+    }
+
+    private void onFavTvShowBindView(FavouriteTvShow favouriteTvShow) {
+        setActionBar(favouriteTvShow.getName());
+        Glide.with(this)
+                .load(favouriteTvShow.getPosterPath())
+                .into(ivPoster);
+        tvTitle.setText(favouriteTvShow.getName());
+//        tvSynopsis.setText(favouriteMovie.getOverview());
+
+        favouriteTitle = favouriteTvShow.getName();
+        favouriteImgPath = favouriteTvShow.getPosterPath();
+        favouriteRate = favouriteTvShow.getRate();
+    }
+
+    private void onFavMovieBindView(FavouriteMovie favouriteMovie) {
+        setActionBar(favouriteMovie.getName());
+        Glide.with(this)
+                .load(favouriteMovie.getPosterPath())
+                .into(ivPoster);
+        tvTitle.setText(favouriteMovie.getName());
+//        tvSynopsis.setText(favouriteMovie.getOverview());
+
+        favouriteTitle = favouriteMovie.getName();
+        favouriteImgPath = favouriteMovie.getPosterPath();
+        favouriteRate = favouriteMovie.getRate();
 
     }
 
@@ -175,6 +294,11 @@ public class DetailActivity extends AppCompatActivity {
                 .into(ivPoster);
         tvTitle.setText(tvShow.getName());
         tvSynopsis.setText(tvShow.getOverview());
+
+        favouriteTitle = tvShow.getName();
+        favouriteImgPath = tvShow.getPosterPath(ImageSize.W154);
+        favouriteRate = tvShow.getVoteAverage();
+
     }
 
     private void onMovieBindView(Movie movie) {
@@ -188,6 +312,10 @@ public class DetailActivity extends AppCompatActivity {
                 .into(ivPoster);
         tvTitle.setText(movie.getName());
         tvSynopsis.setText(movie.getOverview());
+
+        favouriteTitle = movie.getName();
+        favouriteImgPath = movie.getPosterPath(ImageSize.W154);
+        favouriteRate = movie.getVoteAverage();
     }
 
 }

@@ -3,6 +3,7 @@ package com.tugas.yomoviedb.ui.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -29,7 +30,7 @@ public class FavouriteMovieFragment extends Fragment implements OnFavouriteMovie
     private AppDatabase database;
     private RecyclerView recyclerView;
     private FavouriteMovieAdapter adapter;
-    private List<FavouriteMovie> favouriteMovieList = new ArrayList<>();
+    private ConstraintLayout clEmpty;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class FavouriteMovieFragment extends Fragment implements OnFavouriteMovie
         loadData();
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        setData();
+        clEmpty = view.findViewById(R.id.cl_empty);
 
         return view;
     }
@@ -56,22 +57,23 @@ public class FavouriteMovieFragment extends Fragment implements OnFavouriteMovie
         super.onResume();
         System.out.println("ON RESUME");
         loadData();
-        setData();
 
     }
-
-    private void setData() {
-        adapter = new FavouriteMovieAdapter(favouriteMovieList);
-        adapter.setClickListener(FavouriteMovieFragment.this);
-        adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(adapter);
-    }
-
     private void loadData() {
         database.favouriteDao().getListFavMovie().observe(getActivity(), new Observer<List<FavouriteMovie>>() {
             @Override
             public void onChanged(List<FavouriteMovie> favouriteMovies) {
-                favouriteMovieList = favouriteMovies;
+                if (favouriteMovies.size() == 0) {
+                    clEmpty.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                } else {
+                    adapter = new FavouriteMovieAdapter(favouriteMovies);
+                    adapter.setClickListener(FavouriteMovieFragment.this);
+                    adapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(adapter);
+                    clEmpty.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
             }
         });
     }

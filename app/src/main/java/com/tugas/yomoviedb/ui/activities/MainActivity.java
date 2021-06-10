@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        setSelectedItem(bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.page_movie);
     }
 
     @Override
@@ -53,25 +53,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
 
         return false;
-    }
-
-
-    private void setSelectedItem(BottomNavigationView bottomNavigationView) {
-        if (getIntent().getStringExtra("SELECTED_FRAGMENT") != null) {
-            switch (getIntent().getStringExtra("SELECTED_FRAGMENT")) {
-                case "movie":
-                    bottomNavigationView.setSelectedItemId(R.id.page_movie);
-                    break;
-                case "tv_show":
-                    bottomNavigationView.setSelectedItemId(R.id.page_tv_show);
-                    break;
-                case "favourite":
-                    bottomNavigationView.setSelectedItemId(R.id.page_favourite);
-                    break;
-            }
-        } else {
-            bottomNavigationView.setSelectedItemId(R.id.page_movie);
-        }
     }
 
 

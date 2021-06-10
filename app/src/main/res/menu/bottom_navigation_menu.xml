@@ -5,17 +5,17 @@
     <item
         android:id="@+id/page_movie"
         android:enabled="true"
-        android:icon="@drawable/ic_movie_selector"
+        android:icon="@drawable/ic_outline_movie_24"
         android:title="Movie"/>
     <item
         android:id="@+id/page_tv_show"
         android:enabled="true"
-        android:icon="@drawable/ic_play_circle_selector"
+        android:icon="@drawable/ic_baseline_play_circle_outline_24"
         android:title="TV Show"/>
     <item
         android:id="@+id/page_favourite"
         android:enabled="true"
-        android:icon="@drawable/ic_favorite_selector"
+        android:icon="@drawable/ic_outline_favorite_border_24"
         android:title="Favourite"/>
 
 </menu>

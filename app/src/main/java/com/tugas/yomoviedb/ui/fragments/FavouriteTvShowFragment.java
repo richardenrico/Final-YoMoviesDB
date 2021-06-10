@@ -3,6 +3,7 @@ package com.tugas.yomoviedb.ui.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,7 +29,7 @@ public class FavouriteTvShowFragment extends Fragment implements OnFavouriteTvSh
     private AppDatabase database;
     private RecyclerView recyclerView;
     private FavouriteTvShowAdapter adapter;
-    private List<FavouriteTvShow> favouriteTvShowList = new ArrayList<>();
+    private ConstraintLayout clEmpty;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,9 +44,9 @@ public class FavouriteTvShowFragment extends Fragment implements OnFavouriteTvSh
 
         database = AppDatabase.getInstance(getActivity().getApplicationContext());
         loadData();
+        clEmpty = view.findViewById(R.id.cl_empty);
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        setData();
 
         return view;
     }
@@ -55,22 +56,24 @@ public class FavouriteTvShowFragment extends Fragment implements OnFavouriteTvSh
         super.onResume();
         System.out.println("ON RESUME");
         loadData();
-        setData();
 
-    }
-
-    private void setData() {
-        adapter = new FavouriteTvShowAdapter(favouriteTvShowList);
-        adapter.setClickListener(FavouriteTvShowFragment.this);
-        adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(adapter);
     }
 
     private void loadData() {
         database.favouriteDao().getListFavTvShow().observe(getActivity(), new Observer<List<FavouriteTvShow>>() {
             @Override
             public void onChanged(List<FavouriteTvShow> favouriteTvShows) {
-                favouriteTvShowList = favouriteTvShows;
+                if (favouriteTvShows.size() == 0) {
+                    clEmpty.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                } else {
+                    adapter = new FavouriteTvShowAdapter(favouriteTvShows);
+                    adapter.setClickListener(FavouriteTvShowFragment.this);
+                    adapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(adapter);
+                    clEmpty.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
             }
         });
     }

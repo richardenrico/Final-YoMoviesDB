@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.widget.SearchView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +18,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 
 import com.tugas.yomoviedb.R;
 import com.tugas.yomoviedb.data.api.repository.TvShowRepository;
@@ -40,6 +41,7 @@ public class TvShowFragment extends Fragment
     private TvShowRepository repository;
     private boolean isFetching;
     private int currentPage = 1;
+    private ConstraintLayout clEmpty;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,7 @@ public class TvShowFragment extends Fragment
         refreshLayout = view.findViewById(R.id.swl_tv_show);
         recyclerView = view.findViewById(R.id.recycler_view);
         repository = TvShowRepository.getInstance();
+        clEmpty = view.findViewById(R.id.cl_empty);
         getRepositoryData("", currentPage);
         onScrollListener();
         refreshLayout.setOnRefreshListener(this);
@@ -111,6 +114,8 @@ public class TvShowFragment extends Fragment
                         adapter.setClickListener(TvShowFragment.this);
                         adapter.notifyDataSetChanged();
                         recyclerView.setAdapter(adapter);
+                        clEmpty.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     } else {
                         adapter.appendList(tvShowList);
                     }
@@ -122,6 +127,8 @@ public class TvShowFragment extends Fragment
                 @Override
                 public void onFailure(String message) {
                     Log.d("ERROR", "onFailure:" + message);
+                    clEmpty.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
                 }
             });
         } else {
@@ -186,6 +193,7 @@ public class TvShowFragment extends Fragment
         Intent intent = new Intent(getContext(), DetailActivity.class);
         intent.putExtra("ID", tvShow.getId());
         intent.putExtra("SELECTED_FRAGMENT", getBundle());
+        intent.putExtra("TYPE", "TV_SHOW");
         startActivity(intent);
     }
 }

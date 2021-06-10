@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,6 +47,7 @@ public class MovieFragment extends Fragment
     private MovieRepository repository;
     private boolean isFetching;
     private int currentPage = 1;
+    private ConstraintLayout clEmpty;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class MovieFragment extends Fragment
         refreshLayout = view.findViewById(R.id.swl_movie);
         recyclerView = view.findViewById(R.id.recycler_view);
         repository = MovieRepository.getInstance();
+        clEmpty = view.findViewById(R.id.cl_empty);
         getRepositoryData("", currentPage);
         onScrollListener();
         refreshLayout.setOnRefreshListener(this);
@@ -117,6 +120,8 @@ public class MovieFragment extends Fragment
                         adapter.setClickListener(MovieFragment.this);
                         adapter.notifyDataSetChanged();
                         recyclerView.setAdapter(adapter);
+                        clEmpty.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     } else {
                         adapter.appendList(movieList);
                     }
@@ -127,6 +132,8 @@ public class MovieFragment extends Fragment
 
                 @Override
                 public void onFailure(String message) {
+                    clEmpty.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
                     Log.d("ERROR", "onFailure:" + message);
                 }
             });
